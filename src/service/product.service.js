@@ -52,3 +52,14 @@ await redisClient.del(cacheKey);
 console.log('Cache Deleted');
 return updatedProduct;
 }
+
+export const deletProductService=async(id)=>{
+    const deleteProduct=await Product.findByIdAndDelete(id);
+
+    if(!deleteProduct) return null;
+
+    const cacheKey=`product:{id}`;
+    await redisClient.del(cacheKey);
+    console.log('cache deleted');
+    return deleteProduct;
+}

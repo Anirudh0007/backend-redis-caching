@@ -1,4 +1,4 @@
-import { createProductService, getProductService, updateProductService } from "../service/product.service.js"
+import { createProductService, deletProductService, getProductService, updateProductService } from "../service/product.service.js"
 
 
 export const createProduct=async(req,res)=>{
@@ -53,5 +53,26 @@ export const updateProduct=async(req,res)=>{
     catch(error)
     {
         console.log(error);
+    }
+}
+
+export const deleteProduct=async(req,res)=>{
+    try{
+        const deleteProduct=await deletProductService(req.params.id)
+        if(!deleteProduct)
+        {
+            return res.status(404).json({
+                message:'Product not found'
+            })
+        }
+        res.json({
+            message:"Product deleted successfully"
+        })
+    }
+    catch(error)
+    {
+        res.status(500).json({
+            message:error.message
+        })
     }
 }
